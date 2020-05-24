@@ -7,7 +7,7 @@ exports.seed = function (knex) {
       background: "background for applicant",
       city: "new york",
       state: "NY",
-      applicant_id: 1,
+      applicant_auth_id: 1,
     },
     {
       name: "patric",
@@ -15,7 +15,7 @@ exports.seed = function (knex) {
       background: "background for patrick",
       city: "new york",
       state: "NY",
-      applicant_id: 2,
+      applicant_auth_id: 2,
     },
     {
       name: "maria",
@@ -23,7 +23,7 @@ exports.seed = function (knex) {
       background: "background for maria",
       city: "new york",
       state: "NY",
-      applicant_id: 3,
+      applicant_auth_id: 3,
     },
   ]);
 };
