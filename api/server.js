@@ -3,7 +3,7 @@ const helmet = require("helmet");
 
 const authInvestor = require("../authRoutes/auth-investor");
 const authEntrepeneur = require("../authRoutes/auth-entrepeneur");
-
+const investorRoutes = require('../investorRoutes/investor-route')
 const entrepeneurRoutes = require("../entrepeneurRoutes/entrepeneur-routes");
 // const applicantTypeRoute = require("../entrepeneurRoutes/applicant-type-route");
 const applicantContactRoute = require("../entrepeneurRoutes/applicant-contactInfo-route");
@@ -26,6 +26,8 @@ server.use("/api/auth/applicant", authEntrepeneur);
 
 // /api/applicant/:id/contact
 server.use("/api/applicant", applicantContactRoute);
+
+server.use("/api/investor", investorRoutes)
 
 //api/applicant/:id/project
 server.use("/api/applicant", entrepeneurRoutes);
