@@ -11,12 +11,26 @@ const route = express.Router();
 // POST /api/applicant/:id/project
 route.post("/:id/project", validateId, validateProject, (req, res) => {
   const { id } = req.params;
+
   Entrepeneur.addProject(req.body, id)
     .then((project) => {
       res.status(201).json(project);
     })
     .catch((err) => {
       res.status(500).json({ errorMessage: "there was an error here" });
+    });
+});
+
+// GET /api/applicant/projects
+route.get("/projects", (req, res) => {
+  Entrepeneur.findAll()
+    .then((projects) => {
+      res.status(200).json(projects);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        errorMessage: "there was a problem while getting the projects",
+      });
     });
 });
 
@@ -75,7 +89,7 @@ route.delete(
     const { id, project_id } = req.params;
     Entrepeneur.removeApplicantProject(id, project_id)
       .then((project) => {
-        res.status(200).json(project);
+        res.status(200).json({ message: "project removed successfully" });
       })
       .catch((err) => {
         res.status(500).json({

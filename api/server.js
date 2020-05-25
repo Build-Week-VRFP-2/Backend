@@ -6,6 +6,7 @@ const authEntrepeneur = require("../authRoutes/auth-entrepeneur");
 
 const entrepeneurRoutes = require("../entrepeneurRoutes/entrepeneur-routes");
 // const applicantTypeRoute = require("../entrepeneurRoutes/applicant-type-route");
+const applicantContactRoute = require("../entrepeneurRoutes/applicant-contactInfo-route");
 
 // const investorRestricted = require('../middlewares/investor-restricted');
 const restricted = require("../middlewares/entrepeneur-restricted");
@@ -23,6 +24,10 @@ server.use("/api/auth/applicant", authEntrepeneur);
 
 // server.use("/api/applicant", applicantTypeRoute);
 
+// /api/applicant/:id/contact
+server.use("/api/applicant", applicantContactRoute);
+
+//api/applicant/:id/project
 server.use("/api/applicant", entrepeneurRoutes);
 
 module.exports = server;

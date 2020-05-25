@@ -1,5 +1,6 @@
 const db = require("../data/config-db");
 const Entrepeneur = require("../models/entrepeneur-model");
+const Contact = require("../models/applicant-contactInfo-model");
 
 function validateBody(req, res, next) {
   const { username, password } = req.body;
@@ -41,7 +42,6 @@ function validateIdProject(req, res, next) {
   Entrepeneur.findProjectById(project_id)
     .then((project) => {
       if (project) {
-        console.log("here check ", project);
         next();
       } else {
         res.status(404).json({ errorMessage: "invalid project id" });
@@ -54,9 +54,36 @@ function validateIdProject(req, res, next) {
     });
 }
 
+function validateContact(req, res, next) {
+  const { email, phone_number, address } = req.body;
+  if (!email || !phone_number || !address) {
+    res.status(400).json({ errorMessage: "Please enter required information" });
+  } else {
+    next();
+  }
+}
+
+function validateEmail(req, res, next) {
+  const { email } = req.body;
+
+  Contact.findBy({ email })
+    .then(([contact]) => {
+      if (contact) {
+        res.status(400).json({ errorMessage: "Email already exists." });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ errorMessage: "there was an error" });
+    });
+}
+
 module.exports = {
   validateBody,
   validateId,
   validateProject,
   validateIdProject,
+  validateContact,
+  validateEmail,
 };

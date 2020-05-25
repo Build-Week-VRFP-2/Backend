@@ -24,6 +24,10 @@ function findProjects(applicant_id) {
   return db("applicants as a").where("a.applicant_auth_id", applicant_id);
 }
 
+function findAll() {
+  return db("applicants");
+}
+
 function findProjectById(id) {
   return db("applicants").where({ id }).first();
 }
@@ -46,6 +50,7 @@ async function removeApplicantProject(applicant_id, project_id) {
 
 module.exports = {
   add,
+  findAll,
   findBy,
   findById,
   ///
