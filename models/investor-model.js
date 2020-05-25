@@ -2,21 +2,23 @@ const db = require("../data/config-db");
 
 module.exports = {
     registerInvestor,
+    getAuthBy,
     addInvestor,
     updateInvestor,
+    getInvestorBy,
     getInvestorByID,
     getDashboard,
     saveProject,
     getSavedProjects,
-    removeSavedProject, 
-    getAuthBy,
-    getInvestorBy,
+    removeSavedProject,
+    addContactInfo,
+    getContactInfo,
+    updateContactInfo,
+    addOffering,
+    getOfferings,
+    //updateOfferings,
 }
 
-
-//takes a username and password for a new account
-//posts to the investor_auth table
-//returns a call to the db for the new user
 function registerInvestor(authInfo){
     return db('investor_auth').insert(authInfo, 'id')
         .then(([id])=>{
@@ -24,9 +26,10 @@ function registerInvestor(authInfo){
         })
 }
 
-//takes the info for the new investor
-//posts to the investors table
-//returns a call to the db for the investor data
+function getAuthBy(param){
+    return db('investor_auth as i').where(param).select('i.username').first()
+}
+
 function addInvestor(invData){
     return db('investors').insert(invData, 'id')
         .then(([id])=>{
@@ -41,8 +44,12 @@ function updateInvestor(invID, changes){
         })
 }
 
+function getInvestorBy(param){
+    return db('investor as i').where(param).select('i.name').first()
+}
+
 function getInvestorByID(id){
-    return db('investors as i').where({id}).select('i.id', 'i.name', 'i.description', 'i.city', 'i.state').first()
+    return db('investors as i').where({id}).select('i.id', 'i.name', 'i.description', 'i.investor_auth_id').first()
 }
 
 //will add functionality to filter results after everything else is done
@@ -60,8 +67,8 @@ function saveProject(saveData){
 function getSavedProjects(invID){
     return db('saved as s').where({investor_id: invID})
         .join('applicants as a', 's.applicant_id', '=', 'a.id')
-        .select('s.id', 's.applicant_id', 'a.name', 'a.description', 'a.city', 'a.state')
-        
+        .join('applicant_contact_info as c', 'a.applicant_auth_id', '=', 'c.applicant_id' )
+        .select('s.id', 's.applicant_id', 'a.name', 'a.description', 'a.city', 'a.state', 'c.email', 'c.phone_number', 'c.address')
 }
 
 function removeSavedProject(saveID, invID){
@@ -71,12 +78,35 @@ function removeSavedProject(saveID, invID){
         })
 }
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-// these methods are just used for validation
-function getAuthBy(param){
-    return db('investor_auth as i').where(param).select('i.username').first()
+function addContactInfo(info){
+    return db('investor_contact_info as c').insert(info)
+        .then(response =>{
+            return getContactInfo(info.ivestor_id)
+        })
 }
 
-function getInvestorBy(param){
-    return db('investor as i').where(param).select('i.name').first()
+function getContactInfo(authID){
+    return db('investor_contact_info as c').where({investor_id: authID}).first()
 }
+
+function updateContactInfo(authID, changes){
+    return db('investor_contact_info as c').where({investor_id: authID}).update(changes)
+        .then(response=>{
+            return getContactInfo(authID)
+        })
+}
+
+function addOffering(offering){
+    return db('offering').insert(offering)
+}
+
+function getOfferings(invID){
+    return db('offerings as o').where({investor_id: invID})
+        .join('types as t', 'o.typeID', '=', 't.id')
+        .select('t.title')
+}
+
+/*function updateOffering(offID, changes){
+    return
+}*/
+

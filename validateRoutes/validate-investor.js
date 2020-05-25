@@ -28,6 +28,32 @@ function validateRegister(req, res, next) {
     }
 }
 
+function validateAuthID(req, res, next){
+    const id = req.params.investor_auth_id
+    Inv.getAuthBy({id: id})
+        .then(user=>{
+            if(user){
+                next()
+            }else{
+                res.status(401).json({ errorMessage: "There is no user with that id" })
+            }
+        })
+        .catch(err=>{
+            res.status(500).json({
+                message: 'server error please try again',
+                error: err
+            })
+        })
+}
+
+function checkContactInfo(){
+
+}
+
+function checkOfferings(){
+    
+}
+
 function validateInvestorInfo(req, res, next){
     const {name, description, city, state, investor_auth_id} = req.body
     //first make sure the required fields are there
