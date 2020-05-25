@@ -7,6 +7,9 @@ exports.seed = function (knex) {
       city: "new york",
       state: "NY",
       investor_auth_id: 1,
+      offers_capital: 1,
+      offers_resources: 1,
+      offers_mentorship: 1
     },
     {
       name: "jhon",
@@ -14,6 +17,9 @@ exports.seed = function (knex) {
       city: "oregon",
       state: "NY",
       investor_auth_id: 2,
+      offers_capital: 1,
+      offers_resources: 0,
+      offers_mentorship: 0
     },
     {
       name: "mark",
@@ -21,6 +27,9 @@ exports.seed = function (knex) {
       city: "texas",
       state: "TX",
       investor_auth_id: 3,
+      offers_capital: 0,
+      offers_resources: 0,
+      offers_mentorship: 1
     },
   ]);
 };
