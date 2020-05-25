@@ -1,7 +1,6 @@
 const db = require("../data/config-db");
 
 module.exports = {
-    getAuthBy,
     registerInvestor,
     addInvestor,
     updateInvestor,
@@ -9,13 +8,11 @@ module.exports = {
     getDashboard,
     saveProject,
     getSavedProjects,
-    removeSavedProject,
+    removeSavedProject, 
+    getAuthBy,
+    getInvestorBy,
 }
 
-//just used for auth validation
-function getAuthBy(param){
-    return db('investor_auth as i').where(param).select('i.username').first()
-}
 
 //takes a username and password for a new account
 //posts to the investor_auth table
@@ -55,12 +52,15 @@ function getDashboard(){
 
 function saveProject(saveData){
     return db('saved').insert(saveData, 'id')
+        .then(response=>{
+            return getSavedProjects(saveData.investor_id)
+        })
 }
 
 function getSavedProjects(invID){
     return db('saved as s').where({investor_id: invID})
         .join('applicants as a', 's.applicant_id', '=', 'a.id')
-        .select('a.id', 'a.name', 'a.description', 'a.city', 'a.state')
+        .select('s.id', 's.applicant_id', 'a.name', 'a.description', 'a.city', 'a.state')
         
 }
 
@@ -71,4 +71,12 @@ function removeSavedProject(saveID, invID){
         })
 }
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+// these methods are just used for validation
+function getAuthBy(param){
+    return db('investor_auth as i').where(param).select('i.username').first()
+}
 
+function getInvestorBy(param){
+    return db('investor as i').where(param).select('i.name').first()
+}
