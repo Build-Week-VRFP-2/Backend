@@ -44,13 +44,12 @@ module.exports = async function objectBuilder(invID){
 
 function offeringsBuilder(c, r, m){
     const verify = [c, r, m]
-    const send = []
-    verify.forEach(offering=>{
-        if(offering === 1){
-            offering = true
-            send.push(offering)
+    const send = ['capital', 'resources', 'mentorship']
+    for(let i = 0; i < verify.length, i++;){
+        if(verify[i] === 0){
+            send.splice(i,1)
         }
-    })
+    }
     if(send.length>0){
         return send
     }else{

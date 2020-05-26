@@ -138,7 +138,9 @@ router.put('/:authID/contact', (req, res)=>{
     const changes = req.body
     Inv.updateContactInfo(req.params.authID, changes)
         .then(updatedContact=>{
-            res.status(200).json(updatedContact)
+            res.status(200).json({
+                message: 'successfully updated'
+            })
         })
         .catch(err=>{
             res.status(500).json({
@@ -150,8 +152,20 @@ router.put('/:authID/contact', (req, res)=>{
 
 //delete for saved list
 router.delete('/:authID/saved/:invID/:saveID', (req,res)=>{
-    const removedID = req.body.saveID
+    const removedID = req.params.saveID
     Inv.removeSavedProject(removedID, req.params.invID)
+    .then(updatedSavedList=>{
+            res.status(200).json({
+                message: 'heres your updated saved list',
+                saved_projects: updatedSavedList
+            })
+        })
+        .catch(err=>{
+            res.status(500).json({
+                message: 'error updating saved list',
+                error: err
+            })
+        })
 })
 
 module.exports = router
