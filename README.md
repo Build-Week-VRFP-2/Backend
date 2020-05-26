@@ -182,10 +182,9 @@ Returns:
 
 <br />
 
-## - Add applicant contact information
+## - Add contact information
 
 > #### POST /api/applicant/:id/contact
-
 ```
 expects:
 {
@@ -256,6 +255,179 @@ returns:
 {
     "message": 'successfully deleted'
 }
+```
+
+<br />
+
+##  - Create a new investor
+
+> #### POST /api/investor
+
+```
+expects:
+{
+    "name": <string>,
+    "description": <string>,
+    "city": <string>,
+    "state": <string>,
+    "offers_capital": <boolean>
+    "offers_resources": <boolean>
+    "offers_mentorship": <boolean>
+}
+(note at least one of the offers booleans must be true)
+
+returns:
+{
+    "message": "successfully added the investor info"
+    "inv_id": <integer>
+}
+```
+
+##  - Create Contact info for an investor
+
+> #### POST /api/investor/:authID/contact
+
+```
+expects:
+{
+    email: <string>,
+    phone_number: <integer>,
+    address: <string>
+}
+```
+## - (note at least one of the offers booleans must be true)
+```
+returns:
+{
+    "message": "successfully added the contact info"
+}
+```
+<br />
+
+## - Get investor info
+
+> #### GET /api/investor/:authID/info/:invID
+
+```
+return example:
+{
+        investor_id: 1,
+        name: 'example name',
+        description: 'example description',       
+        auth_id: 1,
+        contactInfo: {
+                        email: 'example@email.com',
+                        phone: 3033033003,
+                        address: 'example address'
+                     },
+        offerings: ['capital', 'mentorship',],
+        saved_projects: [
+                        {project 1},
+                        {project 2},
+                        {project 3}
+                     ]
+}
+```
+<br />
+
+## - get dashboard (returns an array of all projects)
+
+> #### GET /api/investor/:authID/info/:invID
+
+<br />
+
+## - add a project to the saved list
+
+> #### POST /api/investor//:authID/saved/:invID
+
+```
+expects: 
+{
+    "applicant_id": <the id of the project you want to save>
+}
+
+returns: 
+{
+    message: 'heres your updated saved list',
+    saved_projects: <array of that investors saved projects>
+}
+
+```
+
+<br />
+
+## - update investor info
+
+> #### PUT /api/investor//:authID/info/:invID
+
+```
+expects:
+{
+    "name": <string>,
+    "description": <string>,
+    "city": <string>,
+    "state": <string>,
+    "offers_capital": <boolean>
+    "offers_resources": <boolean>
+    "offers_mentorship": <boolean>
+}
+(note at least one of the offers booleans must be true)
+
+return example:
+{
+        investor_id: 1,
+        name: 'example name',
+        description: 'example description',       
+        auth_id: 1,
+        contactInfo: {
+                        email: 'example@email.com',
+                        phone: 3033033003,
+                        address: 'example address'
+                     },
+        offerings: ['capital', 'mentorship',],
+        saved_projects: [
+                        {project 1},
+                        {project 2},
+                        {project 3}
+                     ]
+}
+
+```
+
+## - Update contact information
+
+> #### PUT /api/investor/:authID/contact
+
+```
+expects:
+{
+     email: <string>,
+    phone_number: <integer>,
+    address: <string>,
+}
+```
+
+```
+returns:
+{
+   message: successfully updated
+}
+```
+
+<br />
+
+## - add a project to the saved list
+
+> #### DEL /api/investor//:authID/saved/:invID/:saveID
+
+```
+
+returns: 
+{
+    message: 'heres your updated saved list',
+    saved_projects: <array of that investors saved projects>
+}
+
 ```
 
 <br />
