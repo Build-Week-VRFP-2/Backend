@@ -14,21 +14,20 @@ module.exports = {
     addContactInfo,
     getContactInfo,
     updateContactInfo,
-    addOffering,
-    getOfferings,
-    //updateOfferings,
 }
 
 function registerInvestor(authInfo){
     return db('investor_auth').insert(authInfo, 'id')
         .then(([id])=>{
-            return db('investor_auth as i').where({id}).select('i.id', 'i.username').first()
+            return db('investor_auth as i').where({id}).select('i.id as auth_id', 'i.username').first()
         })
 }
 
 function getAuthBy(param){
-    return db('investor_auth as i').where(param).select('i.username').first()
+    return db('investor_auth as i').where(param).select('i.id', 'i.username').first()
 }
+
+
 
 function addInvestor(invData){
     return db('investors').insert(invData, 'id')
@@ -45,16 +44,18 @@ function updateInvestor(invID, changes){
 }
 
 function getInvestorBy(param){
-    return db('investor as i').where(param).select('i.name').first()
+    return db('investor as i').where(param).first()
 }
 
 function getInvestorByID(id){
-    return db('investors as i').where({id}).select('i.id', 'i.name', 'i.description', 'i.investor_auth_id').first()
+    return db('investors as i').where({id}).first()
 }
 
 //will add functionality to filter results after everything else is done
 function getDashboard(){
-    return db('applicants as a').select('a.id', 'a.name', 'a.description', 'a.city', 'a.state')
+    return db('applicants as a')
+    .join('applicant_contact_info as c', 'a.applicant_auth_id', '=', 'c.applicant_id' )
+    .select('a.id', 'a.name', 'a.description', 'a.city', 'a.state', 'c.email', 'c.phone_number', 'c.address', 'a.needs_capital', 'a.needs_resources', 'a.needs_mentorship', )
 }
 
 function saveProject(saveData){
@@ -68,7 +69,7 @@ function getSavedProjects(invID){
     return db('saved as s').where({investor_id: invID})
         .join('applicants as a', 's.applicant_id', '=', 'a.id')
         .join('applicant_contact_info as c', 'a.applicant_auth_id', '=', 'c.applicant_id' )
-        .select('s.id', 's.applicant_id', 'a.name', 'a.description', 'a.city', 'a.state', 'c.email', 'c.phone_number', 'c.address')
+        .select('s.id', 's.applicant_id', 'a.name', 'a.description', 'a.city', 'a.state', 'c.email', 'c.phone_number', 'c.address', 'a.needs_capital', 'a.needs_resources', 'a.needs_mentorship')
 }
 
 function removeSavedProject(saveID, invID){
@@ -81,7 +82,7 @@ function removeSavedProject(saveID, invID){
 function addContactInfo(info){
     return db('investor_contact_info as c').insert(info)
         .then(response =>{
-            return getContactInfo(info.ivestor_id)
+            return getContactInfo(info.investor_id)
         })
 }
 
@@ -96,17 +97,4 @@ function updateContactInfo(authID, changes){
         })
 }
 
-function addOffering(offering){
-    return db('offering').insert(offering)
-}
-
-function getOfferings(invID){
-    return db('offerings as o').where({investor_id: invID})
-        .join('types as t', 'o.typeID', '=', 't.id')
-        .select('t.title')
-}
-
-/*function updateOffering(offID, changes){
-    return
-}*/
 

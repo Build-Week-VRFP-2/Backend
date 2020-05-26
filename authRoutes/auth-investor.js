@@ -46,7 +46,8 @@ route.post("/login", (req, res) => {
                 const token = createToken(user)
                 res.status(200).json({
                     message: 'successfully logged in',
-                    token: token
+                    token: token,
+                    auth_id: user.id
                 })
             }else{
                 res.status(401).json({
