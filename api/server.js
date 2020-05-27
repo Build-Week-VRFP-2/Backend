@@ -10,8 +10,8 @@ const entrepeneurRoutes = require("../entrepeneurRoutes/entrepeneur-routes");
 const applicantContactRoute = require("../entrepeneurRoutes/applicant-contactInfo-route");
 
 // const investorRestricted = require('../middlewares/investor-restricted');
-const restricted = require("../middlewares/entrepeneur-restricted");
-
+const restrictedEnt = require("../middlewares/entrepeneur-restricted");
+const restrictedInv = require("../middlewares/investor-restricted")
 // we just need to bring entrepeneurs Routes/ investors Routes and add the restricted middleware.
 // create .env file to store jsonwebtoken secret.
 
@@ -27,11 +27,11 @@ server.use("/api/auth/applicant", authEntrepeneur);
 // server.use("/api/applicant", applicantTypeRoute);
 
 // /api/applicant/:id/contact
-server.use("/api/applicant", restricted, applicantContactRoute);
+server.use("/api/applicant", restrictedEnt, applicantContactRoute);
 
-server.use("/api/investor", restricted, investorRoutes);
+server.use("/api/investor", restrictedInv, investorRoutes);
 
 //api/applicant/:id/project
-server.use("/api/applicant", restricted, entrepeneurRoutes);
+server.use("/api/applicant", restrictedEnt, entrepeneurRoutes);
 
 module.exports = server;

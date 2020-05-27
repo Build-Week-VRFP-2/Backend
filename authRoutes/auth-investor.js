@@ -48,21 +48,24 @@ route.post("/login", (req, res) => {
             if(user && bcrypt.compareSync(creds.password, user.password)){
                 const token = createToken(user)
                 Inv.getInvestorBy({investor_auth_id: user.id})
-                    .then(investor=>{
-                        if(investor && objectBuilder(investor.id)){
+                    .then(async investor=>{
+                        const data = await objectBuilder(investor.id)
+                        if(investor && data){
                             res.status(200).json({
                                 message: 'successfully logged in',
                                 token: token,
                                 auth_id: user.id,
-                                data: objectBuilder(investor.id)
+                                investor_data: data
                             })
-                        }else{
-                            res.status(200).json({
+                        } 
+
+                    })
+                    .catch(err=>{
+                        res.status(200).json({
                                 message: 'successfully logged in! we did not find any personal or contact information. Please fill out those forms',
                                 token: token,
                                 auth_id: user.id
-                            })
-                        }
+                        })
                     })
             }else{
                 res.status(401).json({

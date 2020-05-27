@@ -34,22 +34,24 @@ module.exports = async function objectBuilder(invID){
         name: investorData.name,
         description: investorData.description,
         auth_id: investorData.investor_auth_id,
-        contact_info: contactInfo[0],
+        contact_info: contactInfo,
         offerings: offeringsBuilder(investorData.offers_capital, investorData.offers_resources, investorData.offers_mentorship),
         saved_projects: savedProjects
     }
-
     return newObject
 }
 
 function offeringsBuilder(c, r, m){
     const verify = [c, r, m]
-    const send = ['capital', 'resources', 'mentorship']
-    for(let i = 0; i < verify.length, i++;){
-        if(verify[i] === 0){
+    console.log(verify)
+    let send = ['capital', 'resources', 'mentorship']
+    verify.map((offering, i)=>{
+        if(offering === 0){
+            console.log(i, 'is false')
             send.splice(i,1)
         }
-    }
+    })
+    console.log(send)
     if(send.length>0){
         return send
     }else{
