@@ -46,7 +46,7 @@ Expects:
 }
 
 Returns:
-{
+{   "user": <integer> // 4
     "token": <string>
 }
 ```
