@@ -3,20 +3,23 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Inv = require("../models/investor-model");
 const {validateRegister} = require('../validateRoutes/validate-investor')
+const objectBuilder = require('../investorRoutes/objectBuilder')
 
 // INVESTORS ROUTES
 
 const route = express.Router();
 
 function createToken(user) {
-  const payload = {
-    username: user.username,
-  };
-  const options = {
-    expiresIn: "1h",
-  };
-  return jwt.sign(payload, process.env.JWTSECRET, options);
-}
+    const payload = {
+        sub: user.id,
+        username: user.username
+    };
+    const secret = process.env.JWTSECRET || 'bananas'
+    const options = {
+      expiresIn: "1h",
+    };
+        return jwt.sign(payload, secret, options);
+  }
 
 // POST  /api/auth/investor/register
 route.post("/register", validateRegister, (req, res) => {
@@ -38,22 +41,37 @@ route.post("/register", validateRegister, (req, res) => {
 
 // POST  /api/auth/investor/login
 route.post("/login", (req, res) => {
+    
     const creds = req.body
-
     Inv.getAuthBy({username: creds.username})
         .then(user=>{
             if(user && bcrypt.compareSync(creds.password, user.password)){
                 const token = createToken(user)
-                res.status(200).json({
-                    message: 'successfully logged in',
-                    token: token,
-                    auth_id: user.id
-                })
+                Inv.getInvestorBy({investor_auth_id: user.id})
+                    .then(investor=>{
+                        if(investor && objectBuilder(investor.id)){
+                            res.status(200).json({
+                                message: 'successfully logged in',
+                                token: token,
+                                auth_id: user.id,
+                                data: objectBuilder(investor.id)
+                            })
+                        }else{
+                            res.status(200).json({
+                                message: 'successfully logged in! we did not find any personal or contact information. Please fill out those forms',
+                                token: token,
+                                auth_id: user.id
+                            })
+                        }
+                    })
             }else{
                 res.status(401).json({
                     message: 'the username or password is incorrect'
                 })
             }
+        })
+        .catch(err=>{
+            res.status(500).json({err})
         })
 });
 
