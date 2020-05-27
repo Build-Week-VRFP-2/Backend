@@ -32,6 +32,7 @@ route.post("/register", validateBody, (req, res) => {
 });
 
 // POST  /api/auth/login
+
 route.post("/login", validateBody, (req, res) => {
   const { username, password } = req.body;
 
@@ -39,7 +40,7 @@ route.post("/login", validateBody, (req, res) => {
     .then((user) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = createToken(user);
-        res.status(200).json({ token });
+        res.status(200).json({ user: user.id, token });
       } else {
         res.status(400).json({ errorMessage: "Invalid email or password" });
       }
