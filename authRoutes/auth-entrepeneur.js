@@ -32,6 +32,7 @@ route.post("/register", validateBody, (req, res) => {
 });
 
 // POST  /api/auth/login
+
 route.post("/login", validateBody, (req, res) => {
   const { username, password } = req.body;
 

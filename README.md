@@ -59,11 +59,43 @@ Returns:
 
 ## - Return all projects
 
-> #### GET /api/applicants/projects
+> #### GET /api/applicant/projects
 
 ```
 Returns:
 [
+    {
+
+        "name": <string>,
+        "description": <string>,
+        "background": <string>,
+        "city": <string>,
+        "state": <string>,
+        "applicant_auth_id": <integer>, // applicant id
+    },
+    ...
+]
+```
+
+<br />
+
+## - create new project
+
+> #### POST /api/applicant/:id/project
+
+```
+Expects:
+{
+        "name": <string>,
+        "description": <string>,
+        "background": <string>,
+        "city": <string>,
+        "state": <string>,
+}
+```
+
+```
+Returns:
     {
         "id": <integer>,
         "name": <string>,
@@ -74,7 +106,6 @@ Returns:
         "applicant_auth_id": <integer>, // applicant id
     },
     ...
-]
 ```
 
 <br />
