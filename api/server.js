@@ -25,7 +25,7 @@ server.use("/api/auth/applicant", authEntrepeneur);
 // server.use("/api/applicant", applicantTypeRoute);
 
 // /api/applicant/:id/contact
-server.use("/api/applicant", restricted, applicantContactRoute);
+server.use("/api/applicant", applicantContactRoute);
 
 server.use("/api/investor", restricted, investorRoutes);
 
