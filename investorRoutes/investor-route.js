@@ -62,10 +62,12 @@ router.post('/:authID/contact', (req,res)=>{
 //will return investor data contacts and saved list
 router.get('/:authID/info/:invID', (req,res)=>{
     Inv.getInvestorByID(req.params.invID)
-        .then(investor=>{
+        .then(async investor=>{
             if(investor){
-                const investorObj = objectBuilder(investor.id)
-                res.status(200).json(investorObj)
+                const investorObj = await objectBuilder(investor.id)
+                res.status(200).json({
+                    investor: investorObj
+                })
             }else{
                 res.status(404).json({
                     message: 'there is no investor with that id'
