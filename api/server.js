@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const cors = require("cors");
 
 const authInvestor = require("../authRoutes/auth-investor");
 const authEntrepeneur = require("../authRoutes/auth-entrepeneur");
@@ -18,6 +19,7 @@ const server = express();
 
 server.use(helmet());
 server.use(express.json());
+server.use(cors());
 
 server.use("/api/auth/investor", authInvestor);
 server.use("/api/auth/applicant", authEntrepeneur);
@@ -25,7 +27,7 @@ server.use("/api/auth/applicant", authEntrepeneur);
 // server.use("/api/applicant", applicantTypeRoute);
 
 // /api/applicant/:id/contact
-server.use("/api/applicant", applicantContactRoute);
+server.use("/api/applicant", restricted, applicantContactRoute);
 
 server.use("/api/investor", restricted, investorRoutes);
 
