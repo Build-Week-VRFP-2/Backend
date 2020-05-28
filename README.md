@@ -91,6 +91,7 @@ Expects:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string> // optional
 }
 ```
 
@@ -104,6 +105,7 @@ Returns:
         "city": <string>,
         "state": <string>,
         "applicant_auth_id": <integer>, // applicant id
+        "image_url": <string>
     },
     ...
 ```
