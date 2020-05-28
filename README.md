@@ -91,6 +91,7 @@ Expects:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string> // optional
 }
 ```
 
@@ -104,6 +105,7 @@ Returns:
         "city": <string>,
         "state": <string>,
         "applicant_auth_id": <integer>, // applicant id
+        "image_url": <string>
     },
     ...
 ```
@@ -216,6 +218,7 @@ Returns:
 ## - Add contact information
 
 > #### POST /api/applicant/:id/contact
+
 ```
 expects:
 {
@@ -290,7 +293,7 @@ returns:
 
 <br />
 
-##  - Create a new investor
+## - Create a new investor
 
 > #### POST /api/investor
 
@@ -301,6 +304,7 @@ expects:
     "description": <string>,
     "city": <string>,
     "state": <string>,
+    "image_url": <string> // optional
     "offers_capital": <boolean>
     "offers_resources": <boolean>
     "offers_mentorship": <boolean>
@@ -314,7 +318,7 @@ returns:
 }
 ```
 
-##  - Create Contact info for an investor
+## - Create Contact info for an investor
 
 > #### POST /api/investor/:authID/contact
 
@@ -326,13 +330,16 @@ expects:
     address: <string>
 }
 ```
+
 ## - (note at least one of the offers booleans must be true)
+
 ```
 returns:
 {
     "message": "successfully added the contact info"
 }
 ```
+
 <br />
 
 ## - Get investor info
@@ -344,7 +351,7 @@ return example:
 {
         investor_id: 1,
         name: 'example name',
-        description: 'example description',       
+        description: 'example description',
         auth_id: 1,
         contactInfo: {
                         email: 'example@email.com',
@@ -359,6 +366,7 @@ return example:
                      ]
 }
 ```
+
 <br />
 
 ## - get dashboard (returns an array of all projects)
@@ -372,12 +380,12 @@ return example:
 > #### POST /api/investor//:authID/saved/:invID
 
 ```
-expects: 
+expects:
 {
     "applicant_id": <the id of the project you want to save>
 }
 
-returns: 
+returns:
 {
     message: 'heres your updated saved list',
     saved_projects: <array of that investors saved projects>
@@ -408,7 +416,7 @@ return example:
 {
         investor_id: 1,
         name: 'example name',
-        description: 'example description',       
+        description: 'example description',
         auth_id: 1,
         contactInfo: {
                         email: 'example@email.com',
@@ -453,7 +461,7 @@ returns:
 
 ```
 
-returns: 
+returns:
 {
     message: 'heres your updated saved list',
     saved_projects: <array of that investors saved projects>

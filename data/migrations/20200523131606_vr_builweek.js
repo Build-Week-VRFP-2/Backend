@@ -20,6 +20,7 @@ exports.up = function (knex) {
       table.string("description", 255).notNullable();
       table.string("city", 255).notNullable();
       table.string("state", 255).notNullable();
+
       table
         .integer("investor_auth_id")
         .unsigned()
@@ -35,6 +36,7 @@ exports.up = function (knex) {
       table.string("background", 255).notNullable();
       table.string("city", 255).notNullable();
       table.string("state", 255).notNullable();
+
       table
         .integer("applicant_auth_id")
         .unsigned()
