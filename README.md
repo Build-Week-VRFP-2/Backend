@@ -71,6 +71,7 @@ Returns:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string>
         "applicant_auth_id": <integer>, // applicant id
     },
     ...
@@ -124,6 +125,7 @@ Returns:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string>
         "applicant_auth_id": <integer>, // applicant id
 }
 ```
@@ -143,6 +145,7 @@ Returns:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string> // optional
         "applicant_auth_id": <integer>, // applicant id
     },
     ...
@@ -164,6 +167,7 @@ Returns:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string>
         "applicant_auth_id": <integer>, // applicant id
     }
 ```
@@ -184,6 +188,7 @@ Expects:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string> // optional
 }
 ```
 
@@ -196,6 +201,7 @@ Returns:
         "background": <string>,
         "city": <string>,
         "state": <string>,
+        "image_url": <string>
         "applicant_auth_id": <integer>, // applicant id
 }
 ```
@@ -406,6 +412,7 @@ expects:
     "description": <string>,
     "city": <string>,
     "state": <string>,
+    "image_url": <string>
     "offers_capital": <boolean>
     "offers_resources": <boolean>
     "offers_mentorship": <boolean>
