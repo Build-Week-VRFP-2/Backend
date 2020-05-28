@@ -62,10 +62,12 @@ router.post('/:authID/contact', (req,res)=>{
 //will return investor data contacts and saved list
 router.get('/:authID/info/:invID', (req,res)=>{
     Inv.getInvestorByID(req.params.invID)
-        .then(investor=>{
+        .then(async investor=>{
             if(investor){
-                const investorObj = objectBuilder(investor.id)
-                res.status(200).json(investorObj)
+                const investorObj = await objectBuilder(investor.id)
+                res.status(200).json({
+                    investor: investorObj
+                })
             }else{
                 res.status(404).json({
                     message: 'there is no investor with that id'
@@ -138,7 +140,9 @@ router.put('/:authID/contact', (req, res)=>{
     const changes = req.body
     Inv.updateContactInfo(req.params.authID, changes)
         .then(updatedContact=>{
-            res.status(200).json(updatedContact)
+            res.status(200).json({
+                message: 'successfully updated'
+            })
         })
         .catch(err=>{
             res.status(500).json({
@@ -150,8 +154,20 @@ router.put('/:authID/contact', (req, res)=>{
 
 //delete for saved list
 router.delete('/:authID/saved/:invID/:saveID', (req,res)=>{
-    const removedID = req.body.saveID
+    const removedID = req.params.saveID
     Inv.removeSavedProject(removedID, req.params.invID)
+    .then(updatedSavedList=>{
+            res.status(200).json({
+                message: 'heres your updated saved list',
+                saved_projects: updatedSavedList
+            })
+        })
+        .catch(err=>{
+            res.status(500).json({
+                message: 'error updating saved list',
+                error: err
+            })
+        })
 })
 
 module.exports = router

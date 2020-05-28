@@ -19,12 +19,12 @@ module.exports = {
 function registerInvestor(authInfo){
     return db('investor_auth').insert(authInfo, 'id')
         .then(([id])=>{
-            return db('investor_auth as i').where({id}).select('i.id as auth_id', 'i.username').first()
+            return db('investor_auth as i').where({id}).select('i.id', 'i.username').first()
         })
 }
 
 function getAuthBy(param){
-    return db('investor_auth as i').where(param).select('i.id', 'i.username').first()
+    return db('investor_auth as i').where(param).first()
 }
 
 
