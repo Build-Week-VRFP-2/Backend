@@ -45,10 +45,12 @@ route.post("/login", (req, res) => {
     const creds = req.body
     Inv.getAuthBy({username: creds.username})
         .then(user=>{
+            console.log(user)
             if(user && bcrypt.compareSync(creds.password, user.password)){
                 const token = createToken(user)
                 Inv.getInvestorBy({investor_auth_id: user.id})
                     .then(async investor=>{
+                        console.log(investor)
                         const data = await objectBuilder(investor.id)
                         if(investor && data){
                             res.status(200).json({

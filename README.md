@@ -321,9 +321,9 @@ returns:
 ```
 expects:
 {
-    email: <string>,
-    phone_number: <integer>,
-    address: <string>
+    "email": <string>,
+    "phone_number": <integer>,
+    "address": <string>
 }
 ```
 ## - (note at least one of the offers booleans must be true)
