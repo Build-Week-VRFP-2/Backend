@@ -1,4 +1,4 @@
-const supertest = require("supertest");
+/*const supertest = require("supertest");
 const applicant = require("../api/server");
 // const server = require("../api/server");
 const db = require("../data/config-db");
@@ -51,4 +51,4 @@ describe("applicants", () => {
         });
     });
   });
-});
+});*/

@@ -1,4 +1,4 @@
-const supertest = require("supertest");
+/*const supertest = require("supertest");
 const applicant = require("../api/server");
 const db = require("../data/config-db");
 
@@ -98,4 +98,4 @@ describe("applicants", () => {
       expect(res.body.errorMessage).toBe("Invalid ID");
     });
   });
-});
+});*/

@@ -100,9 +100,11 @@ router.get('/:authID/dashboard/:invID', (req,res)=>{
 
 //post for save list
 router.post('/:authID/saved/:invID', (req,res)=>{
+    const invID = req.params.invID
     const newSaveObj = {
-        ...req.body,
-        investor_id: req.params.invID
+        investor_id: invID,
+        applicant_id: req.body.applicant_id
+        
     }
     Inv.saveProject(newSaveObj)
         .then(updatedSavedList=>{
@@ -124,8 +126,8 @@ router.post('/:authID/saved/:invID', (req,res)=>{
 router.put('/:authID/info/:invID', (req,res)=>{
     const changes = req.body
     Inv.updateInvestor(req.params.invID, changes)
-        .then(updatedInvestor=>{
-            const investorObj = objectBuilder(updatedInvestor.id)
+        .then(async updatedInvestor=>{
+            const investorObj = await objectBuilder(updatedInvestor.id)
             res.status(200).json(investorObj)
         })
         .catch(err=>{
@@ -141,7 +143,8 @@ router.put('/:authID/contact', (req, res)=>{
     Inv.updateContactInfo(req.params.authID, changes)
         .then(updatedContact=>{
             res.status(200).json({
-                message: 'successfully updated'
+                message: 'successfully updated',
+                data: updatedContact
             })
         })
         .catch(err=>{

@@ -26,32 +26,34 @@ const Inv = require('../models/investor-model')
 module.exports = async function objectBuilder(invID){
 
     const investorData = await Inv.getInvestorByID(invID)
-    const contactInfo = await Inv.getContactInfo(investorData.investor_auth_id)
+    console.log(investorData)
+    const contactInfo = await Inv.getContactInfo(investorData.investor_auth_id) || 'please fill out contact info'
     const savedProjects = await Inv.getSavedProjects(invID)
-    
+    let offerings = offeringsBuilder(investorData.offers_capital, investorData.offers_resources, investorData.offers_mentorship)
+    console.log(offerings)
     const newObject = {
         id: investorData.id,
         name: investorData.name,
         description: investorData.description,
         auth_id: investorData.investor_auth_id,
         contact_info: contactInfo,
-        offerings: offeringsBuilder(investorData.offers_capital, investorData.offers_resources, investorData.offers_mentorship),
+        offerings: offerings,
         saved_projects: savedProjects
     }
     return newObject
 }
 
+//fixed immutability error
 function offeringsBuilder(c, r, m){
     const verify = [c, r, m]
-    console.log(verify)
-    let send = ['capital', 'resources', 'mentorship']
+    let send = [] 
+    send = []
+    const types = ['capital', 'resources', 'mentorship']
     verify.map((offering, i)=>{
-        if(offering === 0){
-            console.log(i, 'is false')
-            send.splice(i,1)
+        if(offering === 1){
+            send.push(types[i])
         }
     })
-    console.log(send)
     if(send.length>0){
         return send
     }else{
